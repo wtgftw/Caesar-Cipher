@@ -2,23 +2,32 @@ class Menu:
     def __init__(self):
         pass
 
-    @staticmethod
-    def start() -> None:
+    def start(self) -> None:
         print("Welcome in Caesar Cipher encryptor ")
-        Menu.display_menu()
+        self.main_menu()
 
     @staticmethod
-    def display_menu() -> None:
+    def main_menu() -> None:
         print("*" * 30)
-        print("1. Encrypt a message")
-        print("2. Decrypt a message")
-        print("3. Exit")
+        print("""Encrypt text:
+    1. ROT13
+    2. ROT47
+    3. Custom Shift
+Decrypt text:
+    4. ROT13
+    5. ROT47
+    6. Custom Shift
+0. Exit""")
         print("*" * 30)
-    
+
     def get_user_choice(self) -> int:
         while True:
             try:
-                choice: int = int(input("Please select an option (1-3): "))
+                choice: int = int(input("Please select an option (0-6): "))
+                if choice < 0 or choice > 6:
+                    raise ValueError("Invalid input. Please enter a number between 0 and 6.")
                 return choice
             except: 
-                ValueError("Invalid input. Please enter a number between 1 and 3.")
+                raise ValueError("Invalid input. Please enter a number between 0 and 6.")
+
+    
