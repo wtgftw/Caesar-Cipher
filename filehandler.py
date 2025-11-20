@@ -1,4 +1,6 @@
 import os 
+from text import Text
+import json
 
 class Filehandler:
 
@@ -18,7 +20,8 @@ class Filehandler:
             return file.read()
 
 
-    def write_file(self, filepath: str, content: str) -> None:
-        with open(filepath, 'a') as file:
-            file.write(content)
+    def write_file(self, filepath: str, text: Text) -> None:
+        
+        with open('data.json', 'a', encoding="utf-8") as file:
+            json.dump(text, file, ensure_ascii=False, indent=4)
         print(f"Content successfully written to {filepath}")

@@ -26,10 +26,11 @@ class Manager:
                         content = input("Please enter the text to encrypt: ")
                         print(f"Content from console: {content}")
                     text_obj = self.encrypt(content,13)
+                
                     
                     if destination == 1:
                         filepath = input("Please enter the output file path: ")
-                        self._filehandler.write_file(filepath, content)
+                        self._filehandler.write_file(filepath=filepath, text=text_obj)
                         print(f"Content written to file: {filepath}")
                     else:
                         print(f"Encrypted content: {text_obj.text}")
@@ -50,8 +51,8 @@ class Manager:
                     print("Invalid choice. Please try again.")
       
     def encrypt(self, text: str, enc_type: int) -> Text:
-        text = text.strip()
         self._buffer.clear()
+        text = text.strip()
         for char in text:
             if char != " ":
                 encrypted_char = chr(ord(char) + enc_type)
