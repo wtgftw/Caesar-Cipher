@@ -7,6 +7,7 @@ class Manager:
         self._menu = Menu()
         self._filehandler = Filehandler()
         self._buffer = []
+        self._multi = []
 
 
     def run(self) -> None:
@@ -24,7 +25,7 @@ class Manager:
                         print(f"Content from file: {content}")
                     else:
                         content = input("Please enter the text to encrypt: ")
-                    text_obj = self.encrypt(text=content, enc_type=13)
+                    text_obj = self.encrypt(text_list=content, enc_type=13)
                     self._buffer.append(text_obj)
 
                 case 2:
@@ -39,7 +40,7 @@ class Manager:
                     print("You selected Encrypt with Custom Shift")
                 case 7:
                     print("You selected Display last")
-                    print(self._buffer)
+                    print(self._buffer[0])
                 case 8:
                     print("You selected Display buffer")
                 case 9:
@@ -56,22 +57,29 @@ class Manager:
                 case _:
                     print("Invalid choice. Please try again.")
             
-    def encrypt(self, text: str, enc_type: int) -> Text:
+    def encrypt(self, text_list: list, enc_type: int) -> Text:
         result: list = []
-        text = text.strip()
-        for char in text:
-            if char != " ":
-                encrypted_char = chr(ord(char) + enc_type)
-            else:
-                encrypted_char = char
-            result.append(encrypted_char)
+        for text in text_list:
+            text = text.strip()
+            result = []
+            for char in text:
+                if char != " ":
+                    encrypted_char = chr(ord(char) + enc_type)
+                else:
+                    encrypted_char = char
+                result.append(encrypted_char)
 
-        encrypted_text: str = "".join(result)
-        encrypted_text.encode()
+            encrypted_text: str = "".join(result)
+            encrypted_text.encode()
 
-        return Text(text=encrypted_text,
+            self._multi.append(
+                Text(text=encrypted_text,
                     rot_type=enc_type,
                     status="encrypted")
+            )
+
+
+        return self._multi
 
         
 

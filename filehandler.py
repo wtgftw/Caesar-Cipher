@@ -6,11 +6,15 @@ class Filehandler:
 
     def get_file_content(self) -> str:
         user_filepath: str = input("Please enter the file path: ")
+        temp = []
         if not os.path.isfile(user_filepath):
             print("File not found. Using default 'input.txt' file.")
-            return self.read_file()
         else:
-            return json.loads(s=user_filepath)
+            with open(user_filepath) as file:
+                data = json.load(file)
+                for x in data:
+                     temp.append(x.get("text"))
+                return temp
 
     def read_file(self, filepath: str="input.txt") -> str:
         with open(filepath, 'r') as file:
