@@ -1,6 +1,5 @@
 from __future__ import annotations
 from manager import Manager
-
 class CaesarCipherFacade:
     def __init__(self) -> None:
         self._manager = Manager()
