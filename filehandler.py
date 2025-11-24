@@ -4,7 +4,7 @@ import json
 
 class Filehandler:
 
-    def get_file_content(self) -> str:
+    def get_file_content(self) -> list:
         user_filepath: str = input("Please enter the file path: ")
         temp = []
         if not os.path.isfile(user_filepath):

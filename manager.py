@@ -6,8 +6,8 @@ class Manager:
     def __init__(self) -> None:
         self._menu = Menu()
         self._filehandler = Filehandler()
-        self._buffer = []
-        self._multi = []
+        self._buffer: list[Text]= []
+        #self._multi: list[Text] = []
 
 
     def run(self) -> None:
@@ -23,15 +23,36 @@ class Manager:
                     if source == 1:
                         content = self._filehandler.get_file_content()
                         print(f"Content from file: {content}")
+                        self.encrypt(text_list=content, enc_type=13)
                     else:
                         content = input("Please enter the text to encrypt: ")
-                    text_obj = self.encrypt(text_list=content, enc_type=13)
-                    self._buffer.append(text_obj)
+                        self.encrypt(text_str=content, enc_type=13)
+            
 
                 case 2:
                     print("You selected Encrypt with ROT47")
+                    source = self._menu.ask_text_source()
+    
+                    if source == 1:
+                        content = self._filehandler.get_file_content()
+                        print(f"Content from file: {content}")
+                        self.encrypt(text_list=content, enc_type=47)
+                    else:
+                        content = input("Please enter the text to encrypt: ")
+                        self.encrypt(text_str=content, enc_type=47)
                 case 3:
                     print("You selected Encrypt with Custom Shift")
+                    user_custom_shift = int(input("Provide custom shift: "))
+                    
+                    source = self._menu.ask_text_source()
+    
+                    if source == 1:
+                        content = self._filehandler.get_file_content()
+                        print(f"Content from file: {content}")
+                        self.encrypt(text_list=content, enc_type=user_custom_shift)
+                    else:
+                        content = input("Please enter the text to encrypt: ")
+                        self.encrypt(text_str=content, enc_type=user_custom_shift)
                 case 4:
                     print("You selected Decrypt with ROT13")
                 case 5:
@@ -40,7 +61,8 @@ class Manager:
                     print("You selected Encrypt with Custom Shift")
                 case 7:
                     print("You selected Display last")
-                    print(self._buffer[0])
+                   # print(self._buffer[len(self._buffer) - 1])
+                    print(self._buffer)
                 case 8:
                     print("You selected Display buffer")
                 case 9:
@@ -57,30 +79,46 @@ class Manager:
                 case _:
                     print("Invalid choice. Please try again.")
             
-    def encrypt(self, text_list: list, enc_type: int) -> Text:
-        result: list = []
-        for text in text_list:
-            text = text.strip()
-            result = []
-            for char in text:
-                if char != " ":
-                    encrypted_char = chr(ord(char) + enc_type)
-                else:
-                    encrypted_char = char
+    def encrypt(self, enc_type: int, text_list=None, text_str=None) -> None:
+        result: list[chr] = []
+        if text_list:
+            for text in text_list:
+                result = []
+                text = text.strip()
+                for char in text:
+                    encrypted_char = self._encrypt_char(char=char, shift=enc_type)
+                    result.append(encrypted_char)
+
+                encrypted_text: str = "".join(result)
+
+                self._buffer.append(
+                Text(text=encrypted_text,
+                    rot_type=enc_type,
+                    status="encrypted")
+            )
+        else:
+            text_str = text_str.strip()
+            for char in text_str:
+                encrypted_char = self._encrypt_char(char=char, shift=enc_type)
                 result.append(encrypted_char)
 
             encrypted_text: str = "".join(result)
-            encrypted_text.encode()
 
-            self._multi.append(
+            self._buffer.append(
                 Text(text=encrypted_text,
                     rot_type=enc_type,
                     status="encrypted")
             )
 
-
-        return self._multi
-
+    def _encrypt_char(self, char: str, shift: int) -> str:
+        MAX_BMP: int = 65535
+        if char == " ":
+            return char
         
+        char_code = ord(char)
 
-        
+        if char_code <= MAX_BMP:
+            shifted = (char_code + shift) % (MAX_BMP + 1)
+            return chr(shifted)
+        else: 
+            return char      
