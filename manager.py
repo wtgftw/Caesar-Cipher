@@ -185,9 +185,8 @@ class Manager:
                     [print(f"{idx}. {text_obj.text} - {text_obj.status}") for idx,text_obj in enumerate(self._buffer, start=1)] 
                 case 10:
                     print("You selected Print to file")
-                    filepath = input("Please enter the output file path: ")
-                    self._filehandler.write_file(filepath=filepath, data=self._buffer)
-                    print(f"Content written to file: {filepath}")
+                    self._filehandler.write_file(data=self._buffer)
+                    
                 case 11:
                     print("Exiting the program. Goodbye!")
                     break
