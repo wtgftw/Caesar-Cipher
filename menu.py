@@ -9,49 +9,37 @@ class Menu:
     @staticmethod
     def main_menu() -> None:
         print("*" * 30)
-        print("""Encrypt text:
-    1. ROT13
-    2. ROT47
-    3. Custom Shift
-Decrypt text:
-    4. ROT13
-    5. ROT47
-    6. Custom Shift
-Options:
-    7.Display last
-    8.Display buffer
-    9.Save to file
-0. Exit""")
+        print("""1.Encrypt with ROT13
+2. Encrypt with ROT47
+3. Encrypt with Custom Shift
+4. Decrypt with ROT13
+5. Decrypt with ROT47
+6. Decrypt with Custom Shift
+7. Load from JSON file
+8. Display last
+9. Display buffer
+10. Save to file
+11. Exit""")
         print("*" * 30)
 
-    def get_user_choice(self) -> int:
-        while True:
-            try:
-                choice: int = int(input("Please select an option (0-9): "))
-                if choice < 0 or choice > 9:
-                    raise ValueError("Invalid input. Please enter a number between 0 and 9.")
-                return choice
-            except: 
-                raise ValueError("Invalid input. Please enter a number between 0 and 9.")
+    def get_user_choice(self, options_range: int) -> int:
+        try:
+            choice: int = int(input(f"Please select an option (0-{options_range}): "))
+            if choice < 1 or choice > options_range:
+                raise ValueError(f"Invalid input. Please enter a number between 1 and {options_range}.")
+            return choice
+        except: 
+            raise ValueError(f"Invalid input. Please enter a number between 1 and {options_range}.")
 
     def ask_text_source(self) -> int:
         print("Please choose the text source:")
-        print("1. Input from file")
-        print("2. Input from console")
-        return self.verify_text_choice()
+        print("1. Input from console")
+        print("2. Select from buffer")
+        return self.get_user_choice(options_range=2)
     
+
     def ask_text_destination(self) -> int:
         print("Please choose the text destination:")
         print("1. Write to file")
         print("2. Show in console")
         return self.verify_text_choice()
-
-    def verify_text_choice(self) -> int:
-        while True:
-            try:  
-                choice: int = int(input("Please select an option (1-2): "))
-                if choice < 1 or choice > 2:
-                    raise ValueError("Invalid input. Please enter 1 or 2.")
-                return choice
-            except:
-                raise ValueError("Invalid input. Please enter 1 or 2.")   

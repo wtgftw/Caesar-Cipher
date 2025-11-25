@@ -7,96 +7,9 @@ class Manager:
         self._menu = Menu()
         self._filehandler = Filehandler()
         self._buffer: list[Text]= []
-        #self._multi: list[Text] = []
 
-
-    def run(self) -> None:
-        self._menu.start()
-
-        while True:
-            choice = self._menu.get_user_choice()
-            match choice:
-                case 1:
-                    print("You selected Encrypt with ROT13")
-                    source = self._menu.ask_text_source()
-    
-                    if source == 1:
-                        content = self._filehandler.get_file_content()
-                        print(f"Content from file: {content}")
-                        self.encrypt(text_list=content, enc_type=13)
-                    else:
-                        content = input("Please enter the text to encrypt: ")
-                        self.encrypt(text_str=content, enc_type=13)
-            
-
-                case 2:
-                    print("You selected Encrypt with ROT47")
-                    source = self._menu.ask_text_source()
-    
-                    if source == 1:
-                        content = self._filehandler.get_file_content()
-                        print(f"Content from file: {content}")
-                        self.encrypt(text_list=content, enc_type=47)
-                    else:
-                        content = input("Please enter the text to encrypt: ")
-                        self.encrypt(text_str=content, enc_type=47)
-                case 3:
-                    print("You selected Encrypt with Custom Shift")
-                    user_custom_shift = int(input("Provide custom shift: "))
-                    
-                    source = self._menu.ask_text_source()
-    
-                    if source == 1:
-                        content = self._filehandler.get_file_content()
-                        print(f"Content from file: {content}")
-                        self.encrypt(text_list=content, enc_type=user_custom_shift)
-                    else:
-                        content = input("Please enter the text to encrypt: ")
-                        self.encrypt(text_str=content, enc_type=user_custom_shift)
-                case 4:
-                    print("You selected Decrypt with ROT13")
-                case 5:
-                    print("You selected Decrypt with ROT47")
-                case 6:
-                    print("You selected Encrypt with Custom Shift")
-                case 7:
-                    print("You selected Display last")
-                   # print(self._buffer[len(self._buffer) - 1])
-                    print(self._buffer)
-                case 8:
-                    print("You selected Display buffer")
-                case 9:
-                    print("You selected Print to file")
-                    #destination = self._menu.ask_text_destination()
-                    '''
-                    if destination == 1:
-                        filepath = input("Please enter the output file path: ")
-                        self._filehandler.write_file(filepath=filepath, text=text_obj)
-                        print(f"Content written to file: {filepath}")'''
-                case 0:
-                    print("Exiting the program. Goodbye!")
-                    break
-                case _:
-                    print("Invalid choice. Please try again.")
-            
-    def encrypt(self, enc_type: int, text_list=None, text_str=None) -> None:
-        result: list[chr] = []
-        if text_list:
-            for text in text_list:
-                result = []
-                text = text.strip()
-                for char in text:
-                    encrypted_char = self._encrypt_char(char=char, shift=enc_type)
-                    result.append(encrypted_char)
-
-                encrypted_text: str = "".join(result)
-
-                self._buffer.append(
-                Text(text=encrypted_text,
-                    rot_type=enc_type,
-                    status="encrypted")
-            )
-        else:
+    def encrypt(self, enc_type: int, text_str=None) -> None:
+            result: list[str] = []
             text_str = text_str.strip()
             for char in text_str:
                 encrypted_char = self._encrypt_char(char=char, shift=enc_type)
@@ -121,4 +34,163 @@ class Manager:
             shifted = (char_code + shift) % (MAX_BMP + 1)
             return chr(shifted)
         else: 
-            return char      
+            return char     
+        
+    def decrypt(self, enc_type: int, text_str: str) -> None:
+            result: list[str] = []
+            text_str = text_str.strip()
+            for char in text_str:
+                decrypted_char = self._decrypt_char(char=char, shift=enc_type)
+                result.append(decrypted_char)
+
+            decrypted_text: str = "".join(result)
+
+            self._buffer.append(
+                Text(text=decrypted_text,
+                    rot_type=enc_type,
+                    status="decrypted")
+            )
+
+    def _decrypt_char(self, char: str, shift: int) -> str:
+        MAX_BMP: int = 65535
+        if char == " ":
+            return char
+        
+        char_code = ord(char)
+
+        if char_code <= MAX_BMP:
+            shifted = (char_code - shift) % (MAX_BMP + 1)
+            return chr(shifted)
+        else: 
+            return char   
+
+
+    def run(self) -> None:
+        self._menu.start()
+
+        while True:
+            menu_choice = self._menu.get_user_choice(options_range=11)
+            match menu_choice:
+                case 1:
+                    print("You selected Encrypt with ROT13")
+                    text_source = self._menu.ask_text_source()
+                    if text_source == 1:
+                        content = input("Please enter the text to encrypt: ")
+                        self.encrypt(text_str=content, enc_type=13)
+                    else:
+                        if len(self._buffer) > 0:
+                            print(f"Choose index from buffer in range {len(self._buffer)}")
+                            buffer_idx = int(input("Index: "))
+
+                            if self._buffer[buffer_idx-1].status == "decrypted":
+                                self.encrypt(text_str=self._buffer[buffer_idx-1].text, enc_type=13)
+                        else:
+                            raise ValueError("Buffer is empty...")
+
+                case 2:
+                    print("You selected Encrypt with ROT47")
+                    text_source = self._menu.ask_text_source()
+                    if text_source == 1:
+                        content = input("Please enter the text to encrypt: ")
+                        self.encrypt(text_str=content, enc_type=13)
+                    else:
+                        if len(self._buffer) > 0:
+                            print(f"Choose index from buffer in range {len(self._buffer)}")
+                            buffer_idx = int(input("Index: "))
+
+                            if self._buffer[buffer_idx-1].status == "decrypted":
+                                self.encrypt(text_str=self._buffer[buffer_idx-1].text, enc_type=13)
+                        else:
+                            raise ValueError("Buffer is empty...")
+                case 3:
+                    print("You selected Encrypt with Custom Shift")
+                    user_custom_shift = int(input("Provide custom shift: "))
+    
+                    text_source = self._menu.ask_text_source()
+                    if text_source == 1:
+                        content = input("Please enter the text to encrypt: ")
+                        self.encrypt(text_str=content, enc_type=user_custom_shift)
+                    else:
+                        if len(self._buffer) > 0:
+                            print(f"Choose index from buffer in range {len(self._buffer)}")
+                            buffer_idx = int(input("Index: "))
+
+                            if self._buffer[buffer_idx-1].status == "decrypted":
+                                self.encrypt(text_str=self._buffer[buffer_idx-1].text, enc_type=user_custom_shift)
+                        else:
+                            raise ValueError("Buffer is empty...")
+                case 4:
+                    print("You selected Decrypt with ROT13")
+                    
+                    text_source = self._menu.ask_text_source()
+                    if text_source == 1:
+                        content = input("Please enter the text to encrypt: ")
+                        self.decrypt(text_str=content, enc_type=13)
+                    else:
+                        if len(self._buffer) > 0:
+                            print(f"Choose index from buffer in range {len(self._buffer)}")
+                            buffer_idx = int(input("Index: "))
+
+                            if self._buffer[buffer_idx-1].status == "encrypted":
+                                self.decrypt(text_str=self._buffer[buffer_idx-1].text, enc_type=13)
+                        else:
+                            raise ValueError("Buffer is empty...")
+                    
+                case 5:
+                    print("You selected Decrypt with ROT47")
+
+                    text_source = self._menu.ask_text_source()
+                    if text_source == 1:
+                        content = input("Please enter the text to encrypt: ")
+                        self.decrypt(text_str=content, enc_type=47)
+                    else:
+                        if len(self._buffer) > 0:
+                            print(f"Choose index from buffer in range {len(self._buffer)}")
+                            buffer_idx = int(input("Index: "))
+
+                            if self._buffer[buffer_idx-1].status == "encrypted":
+                                self.decrypt(text_str=self._buffer[buffer_idx-1].text, enc_type=47)
+                        else:
+                            raise ValueError("Buffer is empty...")
+                case 6:
+                    print("You selected Decrypt with Custom Shift")
+
+                    user_custom_shift = int(input("Provide custom shift: "))
+    
+                    text_source = self._menu.ask_text_source()
+                    if text_source == 1:
+                        content = input("Please enter the text to decrypt: ")
+                        self.decrypt(text_str=content, enc_type=user_custom_shift)
+                    else:
+                        if len(self._buffer) > 0:
+                            print(f"Choose index from buffer in range {len(self._buffer)}")
+                            buffer_idx = int(input("Index: "))
+
+                            if self._buffer[buffer_idx-1].status == "encrypted":
+                                self.decrypt(text_str=self._buffer[buffer_idx-1].text, enc_type=user_custom_shift)
+                        else:
+                            raise ValueError("Buffer is empty...")
+                case 7:
+                    print("You selected Load from JSON file")
+                    content = self._filehandler.get_file_content()
+                    self._buffer.extend(content)
+                    print(f"Content from file: {content} loaded to buffer")
+
+
+                case 8:
+                    print("You selected Display last")
+                    print(self._buffer[len(self._buffer) - 1])
+                case 9:
+                    print("You selected Display buffer:", end="\n")
+                    [print(f"{idx}. {text_obj.text} - {text_obj.status}") for idx,text_obj in enumerate(self._buffer, start=1)] 
+                case 10:
+                    print("You selected Print to file")
+                    filepath = input("Please enter the output file path: ")
+                    self._filehandler.write_file(filepath=filepath, data=self._buffer)
+                    print(f"Content written to file: {filepath}")
+                case 11:
+                    print("Exiting the program. Goodbye!")
+                    break
+                case _:
+                    print("Invalid choice. Please try again.")
+            
