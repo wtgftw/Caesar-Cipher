@@ -27,7 +27,7 @@ class Menu:
     @staticmethod
     def get_user_choice(options_range: int) -> int:
         try:
-            choice = int(input(f"Please select an option (0-{options_range}): "))
+            choice = int(input(f"Please select an option (1-{options_range}): "))
             if not 1 <= choice <= options_range:
                 raise ValueError
             return choice
