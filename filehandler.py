@@ -27,9 +27,10 @@ class FileHandler:
         self._validate_buffer_not_empty(data)
 
         json_list = self._convert_to_dict_list(data)
-
+        
         if os.path.isfile(filepath):
-            self._append_to_existing_file(filepath, json_list)
+            if self._ask_for_overwrite():
+                self._append_to_existing_file(filepath, json_list)
         else:
             self._create_new_file(filepath, json_list)
 
@@ -43,10 +44,17 @@ class FileHandler:
     def _validate_json_extension(self, filepath: str) -> None:
         if not filepath.endswith(".json"):
             raise FileExistsError("JSON file extension not supported.")
-
+        
     def _validate_buffer_not_empty(self, data: list[Text]):
         if not data:
             raise ValueError("Buffer was empty.")
+        
+    def _ask_for_overwrite(self) -> bool: 
+        do_overwrite = input("Do you want to overwrite the file? (y/n)")
+        
+        if do_overwrite == "y":
+            return True
+        return False
 
     def _convert_to_dict_list(self, data: list[Text]) -> list[dict[str, str]]:
         return [asdict(obj) for obj in data]
