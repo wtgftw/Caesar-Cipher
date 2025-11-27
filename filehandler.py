@@ -10,16 +10,20 @@ class FileHandler:
         self._validate_file_exists(user_filepath)
 
         with open(user_filepath, encoding="utf-8") as file:
-            data = json.load(file)
-            return [
-                Text(
-                    text=item.get("text"),
-                    rot_type=item.get("rot_type"),
-                    status=item.get("status")
+            try:
+                data = json.load(file)
+                return [
+                    Text(
+                        text=item.get("text"),
+                        rot_type=item.get("rot_type"),
+                        status=item.get("status")
 
-                )
-                for item in data
-            ]
+                    )
+                    for item in data
+                ]
+            except json.JSONDecodeError as e:
+                raise e
+            
 
     def write_file(self, data: list[Text]) -> None:
         filepath = self._get_file_path()
