@@ -85,13 +85,13 @@ class Manager:
                         print("You selected Display last")
                         self._buffer.display_last()
                     case 8:
-                        print("You selected Display buffer:", end="\n")
+                        print("You selected Display buffer", end="\n")
                         self._buffer.display_buffer()
                     case 9:
                         print("You selected Load from JSON file")
                         content = self._file_handler.read_file()
                         self._buffer.extend(content)
-                        print(f"Content from file: {content} loaded to buffer")
+                        print(f"Content from file: {[(text_obj.text, text_obj.rot_type, text_obj.status) for text_obj in content]} loaded to buffer")
                     case 10:
                         print("You selected Print to file")
                         self._file_handler.write_file(data=self._buffer.memory)

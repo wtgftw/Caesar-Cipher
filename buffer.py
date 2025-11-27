@@ -20,6 +20,7 @@ class Buffer:
 
     def display_last(self):
         if self.memory:
-            print(self.memory[-1])
+            text_obj = self.memory[-1]
+            print(f"{text_obj.text} - {text_obj.status}")
         else:
             print("Buffer is empty")
