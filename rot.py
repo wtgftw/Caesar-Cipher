@@ -1,6 +1,6 @@
-
 class Rot:
     MAX_BMP = 65535
+
     def encrypt(self, enc_type: int, text_str: str) -> str:
         text_str = text_str.strip()
 

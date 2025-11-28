@@ -1,5 +1,6 @@
 from text import Text
 
+
 class Buffer:
     def __init__(self):
         self.memory: list[Text] = []

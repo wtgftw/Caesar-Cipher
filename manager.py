@@ -1,5 +1,6 @@
 from text import Text
 
+
 class Manager:
     def __init__(self, menu, file_handler, buffer, rot) -> None:
         self._menu = menu
@@ -31,9 +32,7 @@ class Manager:
 
         encrypted_text = self._rot.encrypt(enc_type=shift, text_str=content)
 
-        self._buffer.add(
-            Text(text=encrypted_text, rot_type=shift, status="encrypted")
-        )
+        self._buffer.add(Text(text=encrypted_text, rot_type=shift, status="encrypted"))
         print(f"Text encrypted successful with shift {shift}")
 
     def _handle_decrypt(self, shift: int):
@@ -46,9 +45,7 @@ class Manager:
 
         encrypted_text = self._rot.decrypt(enc_type=shift, text_str=content)
 
-        self._buffer.add(
-            Text(text=encrypted_text, rot_type=shift, status="decrypted")
-        )
+        self._buffer.add(Text(text=encrypted_text, rot_type=shift, status="decrypted"))
         print(f"Text decrypted successful with shift {shift}")
 
     def _get_custom_shift(self) -> int:
@@ -91,7 +88,9 @@ class Manager:
                         print("You selected Load from JSON file")
                         content = self._file_handler.read_file()
                         self._buffer.extend(content)
-                        print(f"Content from file: {[(text_obj.text, text_obj.rot_type, text_obj.status) for text_obj in content]} loaded to buffer")
+                        print(
+                            f"Content from file: {[(text_obj.text, text_obj.rot_type, text_obj.status) for text_obj in content]} loaded to buffer"
+                        )
                     case 10:
                         print("You selected Print to file")
                         self._file_handler.write_file(data=self._buffer.memory)
@@ -104,4 +103,3 @@ class Manager:
                 print(f"Error: {e}")
             except Exception as e:
                 print(f"Unexcepted error: {e}")
-

@@ -11,7 +11,7 @@ class Menu:
             8: "Display buffer",
             9: "Load from JSON file",
             10: "Save to file",
-            11: "Exit"
+            11: "Exit",
         }
 
     def start(self) -> None:
@@ -32,11 +32,12 @@ class Menu:
                 raise ValueError
             return choice
         except ValueError:
-            raise ValueError(f"Invalid input. Please enter a number between 1 and {options_range}.")
+            raise ValueError(
+                f"Invalid input. Please enter a number between 1 and {options_range}."
+            )
 
     def ask_text_source(self) -> int:
         print("\nPlease choose the text source:")
         print("1. Input from console")
         print("2. Select from buffer")
         return self.get_user_choice(options_range=2)
-    
