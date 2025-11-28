@@ -48,7 +48,7 @@ class FileHandler:
         if not filepath.endswith(".json"):
             raise FileExistsError("JSON file extension not supported.")
 
-    def _validate_buffer_not_empty(self, data: list[Text]):
+    def _validate_buffer_not_empty(self, data: list[Text]) -> None:
         if not data:
             raise ValueError("Buffer was empty.")
 
@@ -62,7 +62,9 @@ class FileHandler:
     def _convert_to_dict_list(self, data: list[Text]) -> list[dict[str, str]]:
         return [asdict(obj) for obj in data]
 
-    def _append_to_existing_file(self, filepath: str, new_data: list[dict[str, str]]):
+    def _append_to_existing_file(
+        self, filepath: str, new_data: list[dict[str, str]]
+    ) -> None:
         with open(filepath, "r", encoding="utf-8") as file:
             existing_data = json.load(file)
 

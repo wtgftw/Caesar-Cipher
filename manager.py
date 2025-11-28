@@ -1,8 +1,17 @@
-from text import Text
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from buffer import Buffer
+    from filehandler import FileHandler
+    from menu import Menu
+    from rot import Rot
+    from text import Text
 
 
 class Manager:
-    def __init__(self, menu, file_handler, buffer, rot) -> None:
+    def __init__(
+        self, menu: Menu, file_handler: FileHandler, buffer: Buffer, rot: Rot
+    ) -> None:
         self._menu = menu
         self._file_handler = file_handler
         self._buffer = buffer
@@ -22,7 +31,7 @@ class Manager:
 
         return text_obj.text
 
-    def _handle_encrypt(self, shift: int):
+    def _handle_encrypt(self, shift: int) -> None:
         text_source = self._menu.ask_text_source()
 
         if text_source == 1:
@@ -35,7 +44,7 @@ class Manager:
         self._buffer.add(Text(text=encrypted_text, rot_type=shift, status="encrypted"))
         print(f"Text encrypted successful with shift {shift}")
 
-    def _handle_decrypt(self, shift: int):
+    def _handle_decrypt(self, shift: int) -> None:
         text_source = self._menu.ask_text_source()
 
         if text_source == 1:

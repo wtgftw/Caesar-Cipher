@@ -8,14 +8,14 @@ from rot import Rot
 
 
 class CaesarCipherFacade:
-    def __init__(self, manager) -> None:
+    def __init__(self, manager: Manager) -> None:
         self._manager = manager
 
     def run(self) -> None:
         self._manager.run()
 
 
-def main():
+def main() -> None:
     manager = Manager(
         menu=Menu(), file_handler=FileHandler(), buffer=Buffer(), rot=Rot()
     )

@@ -1,5 +1,5 @@
 class Menu:
-    def __init__(self):
+    def __init__(self) -> None:
         self.menu_options: dict[int, str] = {
             1: "Encrypt with ROT13",
             2: "Encrypt with ROT47",
