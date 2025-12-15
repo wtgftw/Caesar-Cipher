@@ -1,8 +1,9 @@
-from dataclasses import asdict
-import os
 import json
+import os
+from dataclasses import asdict
 
 from text import Text
+
 
 class FileHandler:
     def read_file(self) -> list[Text]:
@@ -16,14 +17,12 @@ class FileHandler:
                     Text(
                         text=item.get("text"),
                         rot_type=item.get("rot_type"),
-                        status=item.get("status")
-
+                        status=item.get("status"),
                     )
                     for item in data
                 ]
             except json.JSONDecodeError as e:
                 raise e
-            
 
     def write_file(self, data: list[Text]) -> None:
         filepath = self._get_file_path()
@@ -31,7 +30,7 @@ class FileHandler:
         self._validate_buffer_not_empty(data)
 
         json_list = self._convert_to_dict_list(data)
-        
+
         if os.path.isfile(filepath):
             if self._ask_for_overwrite():
                 self._append_to_existing_file(filepath, json_list)
@@ -48,14 +47,14 @@ class FileHandler:
     def _validate_json_extension(self, filepath: str) -> None:
         if not filepath.endswith(".json"):
             raise FileExistsError("JSON file extension not supported.")
-        
-    def _validate_buffer_not_empty(self, data: list[Text]):
+
+    def _validate_buffer_not_empty(self, data: list[Text]) -> None:
         if not data:
             raise ValueError("Buffer was empty.")
-        
-    def _ask_for_overwrite(self) -> bool: 
+
+    def _ask_for_overwrite(self) -> bool:
         do_overwrite = input("Do you want to overwrite the file? (y/n)")
-        
+
         if do_overwrite == "y":
             return True
         return False
@@ -63,7 +62,9 @@ class FileHandler:
     def _convert_to_dict_list(self, data: list[Text]) -> list[dict[str, str]]:
         return [asdict(obj) for obj in data]
 
-    def _append_to_existing_file(self, filepath: str, new_data: list[dict[str, str]]):
+    def _append_to_existing_file(
+        self, filepath: str, new_data: list[dict[str, str]]
+    ) -> None:
         with open(filepath, "r", encoding="utf-8") as file:
             existing_data = json.load(file)
 
