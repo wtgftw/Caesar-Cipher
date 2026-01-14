@@ -6,12 +6,12 @@ if TYPE_CHECKING:
 
 class Buffer:
     def __init__(self) -> None:
-        self.memory: list[Text] = []
+        self.memory: list["Text"] = []
 
-    def add(self, text: Text) -> None:
+    def add(self, text: "Text") -> None:
         self.memory.append(text)
 
-    def extend(self, text: list[Text]) -> None:
+    def extend(self, text: list["Text"]) -> None:
         self.memory.extend(text)
 
     def display_buffer(self) -> None:
