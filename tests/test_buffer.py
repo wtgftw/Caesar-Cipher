@@ -25,7 +25,7 @@ def test_extend_should_extend_buffer_memory_with_values_from_list():
 
     buffer.memory = [Text("test_string1", 13, "encrypted")]
 
-    extension_list = [Text("test_string1", 15, "decrypted"),Text("test_string3", 24, "encrypted")]
+    extension_list = [Text("test_string2", 15, "decrypted"),Text("test_string3", 24, "encrypted")]
 
     buffer.extend(extension_list)
 
@@ -40,3 +40,32 @@ def test_display_buffer_should_print_bufer_empty_info_then_return_when_buffer_is
 
         assert mocked_print.mock_calls == [mock.call("Buffer is empty...")]
 
+
+def test_display_buffer_should_print_object_properties_with_index():
+    buffer = Buffer()
+
+    buffer.memory = [Text(text="test_string1", rot_type=15, status="decrypted"),Text(text="test_string3", rot_type=24, status="encrypted")]
+    with mock.patch('builtins.print') as mocked_print:
+        buffer.display_buffer()
+
+        assert mocked_print.call_count == 2
+        mocked_print.assert_called_with('2. test_string3 - encrypted')
+
+
+def test_display_last_should_print_buffer_is_empty_info_when_no_objects_were_added():
+    buffer = Buffer()
+    buffer.memory = [Text(text="test_string1", rot_type=15, status="decrypted"),Text(text="test_string3", rot_type=24, status="encrypted")]
+
+    with mock.patch('builtins.print') as mocked_print:
+        buffer.display_last()
+
+        assert mocked_print.call_count == 1
+
+def test_display_last_should_print_last_object_in_buffer():
+    buffer = Buffer()
+    buffer.memory = [Text(text="test_string1", rot_type=15, status="decrypted"),Text(text="test_string3", rot_type=24, status="encrypted")]
+
+    with mock.patch('builtins.print') as mocked_print:
+        buffer.display_last()
+        
+        mocked_print.assert_called_once_with('test_string3 - encrypted')
