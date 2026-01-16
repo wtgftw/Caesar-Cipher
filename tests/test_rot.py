@@ -31,4 +31,20 @@ def test_process_char_should_return_whitespace_when_whitespace_provided():
     assert char == encrypted_char
 
 
-def test_proccess_char_shou
+def test_proccess_char_should_return_same_char_when_out_of_range():
+    rot = Rot()
+    char = chr(65537)
+
+    encrypted_char = rot._process_char(char=char,shift=2, encrypt=True)
+
+    assert char == encrypted_char
+
+
+def test_process_char_should_return_shifted_char_when_in_range():
+    rot = Rot()
+    chars = ["a","→","P",chr(65534)]
+
+    encrypted_chars = [rot._process_char(char,3,True) for char in chars]
+    
+    assert chars != encrypted_chars
+
