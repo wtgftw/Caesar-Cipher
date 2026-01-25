@@ -1,0 +1,43 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PYTHON_VERSION: '3.13'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Code Quality & Linting
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version ${{ env.PYTHON_VERSION }}
+
+      - name: Install packages
+        run: | 
+          pip install -r requirements.txt
+          pip install ruff safety bandit mypy 
+
+      - name: Run Ruff
+        run: ruff check .
+
+      - name: Run mypy
+        run: mypy .
+
+      - name: Run Bandit
+        run: bandit -r . -x tests/
+
+      - name: Check dependencies security
+        run: safety check
+        continue-on-error: true
+
+
