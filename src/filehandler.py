@@ -2,7 +2,7 @@ import json
 import os
 from dataclasses import asdict
 
-from text import Text
+from src.text import Text
 
 
 class FileHandler:

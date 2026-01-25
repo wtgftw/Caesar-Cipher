@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from text import Text
+    from src.text import Text
 
 
 class Buffer:

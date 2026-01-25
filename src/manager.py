@@ -1,16 +1,16 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from buffer import Buffer
-    from filehandler import FileHandler
-    from menu import Menu
-    from rot import Rot
-    from text import Text
+    from src.buffer import Buffer
+    from src.filehandler import FileHandler
+    from src.menu import Menu
+    from src.rot import Rot
+    from src.text import Text
 
 
 class Manager:
     def __init__(
-        self, menu: Menu, file_handler: FileHandler, buffer: Buffer, rot: Rot
+        self, menu: 'Menu', file_handler: 'FileHandler', buffer: 'Buffer', rot: 'Rot'
     ) -> None:
         self._menu = menu
         self._file_handler = file_handler
