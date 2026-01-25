@@ -1,4 +1,4 @@
-from rot import Rot
+from src.rot import Rot
 
 
 def test_encrypt_should_return_encypted_string_by_specified_rot():

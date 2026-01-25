@@ -1,6 +1,6 @@
 from unittest import mock
-from buffer import Buffer
-from text import Text
+from src.buffer import Buffer
+from src.text import Text
 
 
 def test_should_make_buffer_class_instance_with_empty_memory_list():

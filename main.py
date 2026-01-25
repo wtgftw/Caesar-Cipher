@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from buffer import Buffer
-from filehandler import FileHandler
-from manager import Manager
-from menu import Menu
-from rot import Rot
+from src.buffer import Buffer
+from src.filehandler import FileHandler
+from src.manager import Manager
+from src.menu import Menu
+from src.rot import Rot
 
 
 class CaesarCipherFacade:

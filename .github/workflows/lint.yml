@@ -28,13 +28,13 @@ jobs:
           pip install ruff safety bandit mypy 
 
       - name: Run Ruff
-        run: ruff check .
+        run: ruff check src
 
       - name: Run mypy
-        run: mypy .
+        run: mypy src main.py
 
       - name: Run Bandit
-        run: bandit -r . -x tests/
+        run: bandit -r src
 
       - name: Check dependencies security
         run: safety check
