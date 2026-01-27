@@ -46,7 +46,7 @@ class FileHandler:
 
     def _validate_json_extension(self, filepath: str) -> None:
         if not filepath.endswith(".json"):
-            raise FileExistsError("JSON file extension not supported.")
+            raise ValueError("JSON file extension only supported.")
 
     def _validate_buffer_not_empty(self, data: list[Text]) -> None:
         if not data:
@@ -70,7 +70,7 @@ class FileHandler:
 
         existing_data.extend(new_data)
 
-        with open(filepath, "w", encoding="utf-8") as file:
+        with open(filepath, "a", encoding="utf-8") as file:
             json.dump(existing_data, file, indent=4)
 
     def _create_new_file(self, filepath: str, data: list[dict[str, str]]) -> None:
