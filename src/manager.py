@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
+from src.text import Text
+
 if TYPE_CHECKING:
     from src.buffer import Buffer
     from src.filehandler import FileHandler
     from src.menu import Menu
     from src.rot import Rot
-    from src.text import Text
+    #from src.text import Text
 
 
 class Manager:
