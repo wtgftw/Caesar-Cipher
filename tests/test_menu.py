@@ -24,5 +24,27 @@ def test_main_menu_should_print_11_menu_options():
     assert mocked_print.mock_has_calls(menu.menu_options)
 
 
-def test_get_user_choice_should_raise_ValueError_when():
-    pass
+def test_get_user_choice_should_raise_ValueError_when_not_in_options_range():
+    menu = Menu()
+
+    with mock.patch('builtins.input',return_value="12"):
+        with pytest.raises(ValueError):
+            menu.get_user_choice(11)
+
+
+def test_get_user_choice_should_return_choice_int_when_menu_option_has_been_selected():
+    menu = Menu()
+
+    with mock.patch('builtins.input', return_value="5"):
+        result = menu.get_user_choice(11)
+
+    assert result == 5
+
+
+def test_ask_text_source_should_return_choice_int_when_source_has_been_selected():
+    menu = Menu()
+
+    with mock.patch('builtins.input', return_value=2):
+        result = menu.ask_text_source()
+
+    assert result == 2
