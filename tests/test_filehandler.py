@@ -155,7 +155,7 @@ def test_conver_to_dict_list_should_return_list_with_dict_objects_inside():
 
 
 def test_append_to_existing_file_should_extend_current_data_with_new_values():
-    file_hanlder = FileHandler()
+    file_handler = FileHandler()
 
     test_data = [
         {"text": "lorem ipsum", "rot_type": 22, "status": "decrypted"},
@@ -167,7 +167,7 @@ def test_append_to_existing_file_should_extend_current_data_with_new_values():
 
     with mock.patch('builtins.open', mock.mock_open(read_data=json.dumps(existing_data))):
         with mock.patch('src.filehandler.json.dump') as mock_dump:
-            file_hanlder._append_to_existing_file(filepath=filepath,new_data=test_data)
+            file_handler._append_to_existing_file(filepath=filepath,new_data=test_data)
 
     expected_combined_data = existing_data + test_data
 
