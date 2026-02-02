@@ -32,7 +32,7 @@ def test_extend_should_extend_buffer_memory_with_values_from_list():
     assert len(buffer.memory) == 3
 
 
-def test_display_buffer_should_print_bufer_empty_info_then_return_when_buffer_is_empty():
+def test_display_buffer_should_print_buffer_empty_info_then_return_when_buffer_is_empty():
     buffer = Buffer()
 
     with mock.patch('builtins.print') as mocked_print:
